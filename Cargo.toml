@@ -2,6 +2,13 @@
 name = "noctisroll"
 version = "0.1.0"
 edition = "2021"
+authors = ["苏向夜 <fu050409@163.com>"]
+description = "Text-based TRPG dice rolling system"
+license = "AGPL-3.0-only"
+repository = "https://github.com/noctisynth/noctisroll"
+readme = "README.md"
+keywords = ["text-based", "roll", "TRPG"]
+homepage = "https://github.com/noctisynth/noctisroll"
 
 [dependencies]
 lalrpop-util = { version = "0.22.0", features = ["lexer", "unicode"] }

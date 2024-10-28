@@ -3,6 +3,7 @@
         "covector",
         "lalrpop",
         "noctisroll",
+        "rngs",
         "TRPG"
     ]
 }

@@ -1,36 +1,42 @@
 use std::str::FromStr;
 
-use crate::roll_dice;
+use crate::Dice;
 
 grammar;
 
-pub Expr: i32 = {
-    <l:Expr> "+" <r:Factor> => l + r,
-    <l:Expr> "-" <r:Factor> => l - r,
+pub Expr: (i32, String) = {
+    <l:Expr> "+" <r:Factor> => (l.0 + r.0, format!("{} + {}", l.1, r.1)),
+    <l:Expr> "-" <r:Factor> => (l.0 - r.0, format!("{} - {}", l.1, r.1)),
     Factor,
 };
 
-Factor: i32 = {
-    <l:Factor> "*" <r:Term> => l * r,
-    <l:Factor> "/" <r:Term> => l / r,
-    <l:Factor> "//" <r:Term> => (l / r) as i32,
-    <l:Factor> "^" <r:Term> => l.pow(r as u32),
-    <l:Factor> "**" <r:Term> => l.pow(r as u32),
-    <l:Factor> "%" <r:Term> => l % r,
+Factor: (i32, String) = {
+    <l:Factor> "*" <r:Term> => (l.0 * r.0, format!("{} * {}", l.1, r.1)),
+    <l:Factor> "/" <r:Term> => (l.0 / r.0, format!("{} / {}", l.1, r.1)),
+    <l:Factor> "//" <r:Term> => ((l.0 / r.0) as i32, format!("{} // {}", l.1, r.1)),
+    <l:Factor> "^" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ^ {}", l.1, r.1)),
+    <l:Factor> "**" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ** {}", l.1, r.1)),
+    <l:Factor> "%" <r:Term> => (l.0 % r.0, format!("{} % {}", l.1, r.1)),
     Term,
 };
 
-Term: i32 = {
+Term: (i32, String) = {
     Dice,
     Num,
     "(" <Expr> ")",
 };
 
-Dice: i32 = {
-    <l:Num> "d" <r:Num> => roll_dice(l, r),
-    "d" <r:Num> => roll_dice(1, r),
+Dice: (i32, String) = {
+    <l:Num> "d" <r:Num> => {
+        let dice = Dice::new(l.0 as usize, r.0).roll();
+        return (dice.result, dice.roll_str());
+    },
+    "d" <r:Num> => {
+        let dice = Dice::new(1, r.0).roll();
+        return (dice.result, dice.roll_str());
+    },
 }
 
-Num: i32 = {
-    r"[0-9]+" => i32::from_str(<>).unwrap(),
+Num: (i32, String) = {
+    r"[0-9]+" => (i32::from_str(<>).unwrap(), <>.to_string()),
 };

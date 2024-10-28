@@ -53,6 +53,14 @@ pub fn roll_dice(num_dice: usize, sides: i32) -> i32 {
 
 pub fn roll_inline<T: AsRef<str> + 'static>(
     input: T,
+) -> Result<i32, ParseError<usize, Token<'static>, &'static str>> {
+    Ok(roll::ExprParser::new()
+        .parse(input.as_ref().to_string().leak())?
+        .0)
+}
+
+pub fn roll<T: AsRef<str> + 'static>(
+    input: T,
 ) -> Result<(i32, String), ParseError<usize, Token<'static>, &'static str>> {
     roll::ExprParser::new().parse(input.as_ref().to_string().leak())
 }
@@ -77,11 +85,14 @@ mod tests {
 
     #[test]
     fn test_roll_inline() {
-        assert_eq!(
-            roll_inline("6d1").unwrap(),
-            (6, "[1, 1, 1, 1, 1, 1]".to_string())
-        );
+        assert_eq!(roll_inline("6d1").unwrap(), 6);
+        assert_eq!(roll_inline("3d1+3d1").unwrap(), 6);
+    }
 
-        assert_eq!(roll_inline("3d1+3d1").unwrap().1, "[1, 1, 1] + [1, 1, 1]");
+    #[test]
+    fn test_roll() {
+        assert_eq!(roll("6d1").unwrap(), (6, "[1, 1, 1, 1, 1, 1]".to_string()));
+
+        assert_eq!(roll("3d1+3d1").unwrap().1, "[1, 1, 1] + [1, 1, 1]");
     }
 }

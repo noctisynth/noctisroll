@@ -1,0 +1,11 @@
+[package]
+name = "noctisroll"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+lalrpop-util = { version = "0.22.0", features = ["lexer", "unicode"] }
+rand = "0.8.5"
+
+[build-dependencies]
+lalrpop = "0.22.0"

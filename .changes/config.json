@@ -1,0 +1,38 @@
+{
+  "gitSiteUrl": "https://github.com/noctisynth/noctisroll.git/",
+  "changeTags": {
+    "feat": "New Features",
+    "fix": "Bug Fixes",
+    "perf": "Performance Improvements",
+    "chore": "Chores",
+    "refactor": "Refactors"
+  },
+  "pkgManagers": {
+    "javascript": {
+      "version": true,
+      "getPublishedVersion": {
+        "use": "fetch:check",
+        "options": {
+          "url": "https://registry.npmjs.com/${ pkg.pkg }/${ pkg.pkgFile.version }"
+        }
+      },
+      "publish": ["npm publish --provenance --access public"]
+    },
+    "rust": {
+      "version": true,
+      "getPublishedVersion": {
+        "use": "fetch:check",
+        "options": {
+          "url": "https://crates.io/api/v1/crates/${ pkg.pkg }/${ pkg.pkgFile.version }"
+        }
+      },
+      "publish": ["cargo publish --no-verify --allow-dirty"]
+    }
+  },
+  "packages": {
+    "noctisroll": {
+      "path": ".",
+      "manager": "rust"
+    }
+  }
+}

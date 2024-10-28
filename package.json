@@ -1,0 +1,15 @@
+{
+  "name": "noctisroll",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "covector": "covector"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "AGPL-3.0-only",
+  "devDependencies": {
+    "covector": "^0.12.3"
+  }
+}

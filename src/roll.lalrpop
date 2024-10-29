@@ -31,17 +31,17 @@ Term: (i32, String) = {
     "cos(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.cos();
-        return (result as i32, format!("cos({})", <>.1));
+        (result as i32, format!("cos({})", <>.1))
     },
     "exp(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.exp();
-        return (result as i32, format!("exp({})", <>.1));
+        (result as i32, format!("exp({})", <>.1))
     },
     "floor(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.floor();
-        return (result as i32, format!("floor({})", <>.1));
+        (result as i32, format!("floor({})", <>.1))
     },
     "max(" <l:Expr> "," <r:Expr> ")" => {
         (l.0.max(r.0), format!("max({}, {})", l.1, r.1))
@@ -52,17 +52,17 @@ Term: (i32, String) = {
     "sin(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.sin();
-        return (result as i32, format!("sin({})", <>.1));
+        (result as i32, format!("sin({})", <>.1))
     },
     "sqrt(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.sqrt();
-        return (result as i32, format!("sqrt({})", <>.1));
+        (result as i32, format!("sqrt({})", <>.1))
     },
     "tan(" <Expr> ")" => {
         let x = <>.0 as f64;
         let result = x.tan();
-        return (result as i32, format!("tan({})", <>.1));
+        (result as i32, format!("tan({})", <>.1))
     },
 };
 

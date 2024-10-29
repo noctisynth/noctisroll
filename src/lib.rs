@@ -86,6 +86,8 @@ mod tests {
     #[test]
     fn test_roll_inline() {
         assert_eq!(roll_inline("6d1").unwrap(), 6);
+        assert_eq!(roll_inline("-6d1").unwrap(), -6);
+        assert_eq!(roll_inline("+6d1").unwrap(), 6);
         assert_eq!(roll_inline("3d1+3d1").unwrap(), 6);
     }
 

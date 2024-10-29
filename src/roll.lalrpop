@@ -17,6 +17,8 @@ Factor: (i32, String) = {
     <l:Factor> "^" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ^ {}", l.1, r.1)),
     <l:Factor> "**" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ** {}", l.1, r.1)),
     <l:Factor> "%" <r:Term> => (l.0 % r.0, format!("{} % {}", l.1, r.1)),
+    "+" <Term> => (<>.0, format!("+{}", <>.1)),
+    "-" <Term> => (-<>.0, format!("-{}", <>.1)),
     Term,
 };
 

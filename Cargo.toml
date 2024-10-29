@@ -1,6 +1,6 @@
 [package]
 name = "noctisroll"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2021"
 authors = ["苏向夜 <fu050409@163.com>"]
 description = "Text-based TRPG dice rolling system"

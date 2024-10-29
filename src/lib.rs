@@ -42,7 +42,7 @@ impl Dice {
                 result.push_str(", ");
             }
         }
-        result.push_str("]");
+        result.push(']');
         result
     }
 }

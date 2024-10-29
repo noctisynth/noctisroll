@@ -13,7 +13,7 @@ pub Expr: (i32, String) = {
 Factor: (i32, String) = {
     <l:Factor> "*" <r:Term> => (l.0 * r.0, format!("{} * {}", l.1, r.1)),
     <l:Factor> "/" <r:Term> => (l.0 / r.0, format!("{} / {}", l.1, r.1)),
-    <l:Factor> "//" <r:Term> => ((l.0 / r.0) as i32, format!("{} // {}", l.1, r.1)),
+    <l:Factor> "//" <r:Term> => (l.0 / r.0, format!("{} // {}", l.1, r.1)),
     <l:Factor> "^" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ^ {}", l.1, r.1)),
     <l:Factor> "**" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ** {}", l.1, r.1)),
     <l:Factor> "%" <r:Term> => (l.0 % r.0, format!("{} % {}", l.1, r.1)),
@@ -29,11 +29,11 @@ Term: (i32, String) = {
 Dice: (i32, String) = {
     <l:Num> "d" <r:Num> => {
         let dice = Dice::new(l.0 as usize, r.0).roll();
-        return (dice.result, dice.roll_str());
+        (dice.result, dice.roll_str())
     },
     "d" <r:Num> => {
         let dice = Dice::new(1, r.0).roll();
-        return (dice.result, dice.roll_str());
+        (dice.result, dice.roll_str())
     },
 }
 

@@ -86,6 +86,8 @@ mod tests {
     #[test]
     fn test_roll_inline() {
         assert_eq!(roll_inline("6d1").unwrap(), 6);
+        assert_eq!(roll_inline("-6d1").unwrap(), -6);
+        assert_eq!(roll_inline("+6d1").unwrap(), 6);
         assert_eq!(roll_inline("3d1+3d1").unwrap(), 6);
     }
 
@@ -94,5 +96,15 @@ mod tests {
         assert_eq!(roll("6d1").unwrap(), (6, "[1, 1, 1, 1, 1, 1]".to_string()));
 
         assert_eq!(roll("3d1+3d1").unwrap().1, "[1, 1, 1] + [1, 1, 1]");
+    }
+
+    #[test]
+    fn test_math() {
+        assert_eq!(roll_inline("min(6d1, 3d1)").unwrap(), 3);
+        assert_eq!(roll_inline("max(6d1, 3d1)").unwrap(), 6);
+        assert_eq!(roll_inline("abs(-6d1)").unwrap(), 6);
+
+        // TODO: support high precision math functions
+        // assert_eq!(roll_inline("cos(6d1)").unwrap(), -0.5403023058681398);
     }
 }

@@ -17,16 +17,56 @@ Factor: (i32, String) = {
     <l:Factor> "^" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ^ {}", l.1, r.1)),
     <l:Factor> "**" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ** {}", l.1, r.1)),
     <l:Factor> "%" <r:Term> => (l.0 % r.0, format!("{} % {}", l.1, r.1)),
+    "+" <Term> => (<>.0, format!("+{}", <>.1)),
+    "-" <Term> => (-<>.0, format!("-{}", <>.1)),
     Term,
 };
 
 Term: (i32, String) = {
-    Dice,
-    Num,
+    BasicDice,
     "(" <Expr> ")",
+    "abs(" <Expr> ")" => {
+        (<>.0.abs(), format!("abs({})", <>.1))
+    },
+    "cos(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.cos();
+        (result as i32, format!("cos({})", <>.1))
+    },
+    "exp(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.exp();
+        (result as i32, format!("exp({})", <>.1))
+    },
+    "floor(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.floor();
+        (result as i32, format!("floor({})", <>.1))
+    },
+    "max(" <l:Expr> "," <r:Expr> ")" => {
+        (l.0.max(r.0), format!("max({}, {})", l.1, r.1))
+    },
+    "min(" <l:Expr> "," <r:Expr> ")" => {
+        (l.0.min(r.0), format!("min({}, {})", l.1, r.1))
+    },
+    "sin(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.sin();
+        (result as i32, format!("sin({})", <>.1))
+    },
+    "sqrt(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.sqrt();
+        (result as i32, format!("sqrt({})", <>.1))
+    },
+    "tan(" <Expr> ")" => {
+        let x = <>.0 as f64;
+        let result = x.tan();
+        (result as i32, format!("tan({})", <>.1))
+    },
 };
 
-Dice: (i32, String) = {
+BasicDice: (i32, String) = {
     <l:Num> "d" <r:Num> => {
         let dice = Dice::new(l.0 as usize, r.0).roll();
         (dice.result, dice.roll_str())
@@ -35,6 +75,11 @@ Dice: (i32, String) = {
         let dice = Dice::new(1, r.0).roll();
         (dice.result, dice.roll_str())
     },
+    "d" => {
+        let dice = Dice::new(1, 100).roll();
+        return (dice.result, dice.roll_str());
+    },
+    Num,
 }
 
 Num: (i32, String) = {

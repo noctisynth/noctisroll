@@ -4,6 +4,7 @@
         "lalrpop",
         "noctisroll",
         "rngs",
-        "TRPG"
+        "TRPG",
+        "usize"
     ]
 }

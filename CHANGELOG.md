@@ -1,5 +1,13 @@
 # Changelog
 
+## \[0.1.3]
+
+### New Features
+
+- [`8135065`](https://github.com/noctisynth/noctisroll.git/commit/8135065de3ca01cc14d72e5343511149db04e90f) ([#6](https://github.com/noctisynth/noctisroll.git/pull/6) by [@fu050409](https://github.com/noctisynth/noctisroll.git/../../fu050409)) Support dice filter in grammar parsing.
+
+  For example, `6d6k3` will roll 6 six-sided dice and keep the highest 3 results and `6d6q3` will roll 6 six-sided dice and keep the lowest 3 results.
+
 ## \[0.1.2]
 
 ### New Features

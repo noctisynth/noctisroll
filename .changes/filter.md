@@ -1,5 +1,5 @@
 ---
-"noctisroll": feat:patch
+"noctisroll": patch:feat
 ---
 
 Support dice filter in grammar parsing.

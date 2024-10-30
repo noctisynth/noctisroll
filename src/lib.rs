@@ -109,17 +109,17 @@ pub fn roll_dice(num_dice: usize, sides: i32) -> i32 {
     Dice::new(num_dice, sides).roll().result
 }
 
-pub fn roll_inline<T: AsRef<str> + 'static>(
+pub fn roll_inline<'input, T: AsRef<str> + 'input>(
     input: T,
-) -> Result<i32, ParseError<usize, Token<'static>, &'static str>> {
+) -> Result<i32, ParseError<usize, Token<'input>, &'input str>> {
     Ok(roll::ExprParser::new()
         .parse(input.as_ref().to_string().leak())?
         .0)
 }
 
-pub fn roll<T: AsRef<str> + 'static>(
+pub fn roll<'input, T: AsRef<str> + 'input>(
     input: T,
-) -> Result<(i32, String), ParseError<usize, Token<'static>, &'static str>> {
+) -> Result<(i32, String), ParseError<usize, Token<'input>, &'input str>> {
     roll::ExprParser::new().parse(input.as_ref().to_string().leak())
 }
 

@@ -6,7 +6,6 @@ use rand::{rngs::OsRng, Rng};
 pub enum Filter {
     MaxN(i32),
     MinN(i32),
-    None,
 }
 
 impl Filter {
@@ -30,18 +29,21 @@ impl Filter {
                 points.sort();
                 points.split_at((*n as usize).min(length)).0.to_vec()
             }
-            Filter::None => points,
         }
     }
 }
 
+#[derive(Default)]
 pub struct Dice {
     count: usize,
     sides: i32,
     rolls: Vec<i32>,
     filtered: Vec<i32>,
     result: i32,
-    filter: Filter,
+    actions: Vec<Filter>,
+    is_num: bool,
+    with_actions: bool,
+    rolled: bool,
 }
 
 impl Dice {
@@ -52,30 +54,57 @@ impl Dice {
             rolls: vec![],
             filtered: vec![],
             result: 0,
-            filter: Filter::None,
+            actions: vec![],
+            is_num: false,
+            with_actions: false,
+            rolled: false,
         }
     }
 
     pub fn filter(mut self, filter: Filter) -> Self {
-        self.filter = filter;
+        self.actions.push(filter);
+        self.with_actions = true;
         self
     }
 
+    pub fn num(num: i32) -> Self {
+        Self {
+            result: num,
+            is_num: true,
+            ..Default::default()
+        }
+    }
+
     pub fn roll(mut self) -> Self {
-        let mut rng = OsRng;
-        for _ in 0..self.count {
-            let roll = rng.gen_range(1..=self.sides);
-            self.rolls.push(roll);
+        if self.is_num {
+            return self;
         }
 
-        self.filtered = self.filter.filter(&mut self.rolls);
+        if !self.rolled {
+            let mut rng = OsRng;
+            for _ in 0..self.count {
+                let roll = rng.gen_range(1..=self.sides);
+                self.rolls.push(roll);
+            }
+        }
+
+        self.filtered = self.rolls.clone();
+        while let Some(action) = self.actions.pop() {
+            self.filtered = action.filter(&mut self.filtered);
+        }
 
         let sum = self.filtered.iter().sum();
         self.result = sum;
+
+        self.rolled = true;
         self
     }
 
     pub fn roll_str(&self) -> String {
+        if self.is_num {
+            return self.result.to_string();
+        }
+
         let mut result = String::from("[");
         for (idx, roll) in self.rolls.iter().enumerate() {
             if idx == self.count - 1 {
@@ -86,7 +115,7 @@ impl Dice {
             }
         }
         result.push(']');
-        if let Filter::None = self.filter {
+        if !self.with_actions {
             result
         } else {
             result.push('(');
@@ -109,17 +138,17 @@ pub fn roll_dice(num_dice: usize, sides: i32) -> i32 {
     Dice::new(num_dice, sides).roll().result
 }
 
-pub fn roll_inline<'input, T: AsRef<str> + 'input>(
+pub fn roll_inline<T: AsRef<str>>(
     input: T,
-) -> Result<i32, ParseError<usize, Token<'input>, &'input str>> {
+) -> Result<i32, ParseError<usize, Token<'static>, &'static str>> {
     Ok(roll::ExprParser::new()
         .parse(input.as_ref().to_string().leak())?
         .0)
 }
 
-pub fn roll<'input, T: AsRef<str> + 'input>(
+pub fn roll<T: AsRef<str>>(
     input: T,
-) -> Result<(i32, String), ParseError<usize, Token<'input>, &'input str>> {
+) -> Result<(i32, String), ParseError<usize, Token<'static>, &'static str>> {
     roll::ExprParser::new().parse(input.as_ref().to_string().leak())
 }
 
@@ -148,6 +177,8 @@ mod tests {
         assert_eq!(roll_inline("+6d1").unwrap(), 6);
         assert_eq!(roll_inline("3d1+3d1").unwrap(), 6);
         assert_eq!(roll_inline("3d1k2").unwrap(), 2);
+        assert_eq!(roll_inline("6d1k3k2").unwrap(), 2);
+        assert!(roll_inline("1k2").is_err())
     }
 
     #[test]

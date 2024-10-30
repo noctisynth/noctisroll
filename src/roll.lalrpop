@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use crate::Dice;
+use crate::{Dice, Filter};
 
 grammar;
 
@@ -23,7 +23,7 @@ Factor: (i32, String) = {
 };
 
 Term: (i32, String) = {
-    BasicDice,
+    FacedDice,
     "(" <Expr> ")",
     "abs(" <Expr> ")" => {
         (<>.0.abs(), format!("abs({})", <>.1))
@@ -66,22 +66,28 @@ Term: (i32, String) = {
     },
 };
 
-BasicDice: (i32, String) = {
-    <l:Num> "d" <r:Num> => {
-        let dice = Dice::new(l.0 as usize, r.0).roll();
+FacedDice: (i32, String) = {
+    BaseDice => {
+        let dice = <>.roll();
         (dice.result, dice.roll_str())
     },
-    "d" <r:Num> => {
-        let dice = Dice::new(1, r.0).roll();
+    <dice:BaseDice> "k" <k:Num> => {
+        let dice = dice.filter(Filter::MaxN(k)).roll();
         (dice.result, dice.roll_str())
     },
-    "d" => {
-        let dice = Dice::new(1, 100).roll();
-        return (dice.result, dice.roll_str());
+    <dice:BaseDice> "q" <q:Num> => {
+        let dice = dice.filter(Filter::MinN(q)).roll();
+        (dice.result, dice.roll_str())
     },
-    Num,
+    Num => (<>, format!("{}", <>)),
 }
 
-Num: (i32, String) = {
-    r"[0-9]+" => (i32::from_str(<>).unwrap(), <>.to_string()),
+BaseDice: Dice = {
+    <l:Num> "d" <r:Num> => Dice::new(l as usize, r),
+    "d" <r:Num> => Dice::new(1, r),
+    "d" => Dice::new(1, 100),
+}
+
+Num: i32 = {
+    r"[0-9]+" => i32::from_str(<>).unwrap(),
 };

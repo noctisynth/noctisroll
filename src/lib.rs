@@ -4,20 +4,20 @@ use lalrpop_util::{lexer::Token, ParseError};
 use rand::{rngs::OsRng, Rng};
 
 pub enum Filter {
-    MaxN(i32),
-    MinN(i32),
+    MaxN(u32),
+    MinN(u32),
 }
 
 impl Filter {
-    pub fn max(n: i32) -> Filter {
+    pub fn max(n: u32) -> Filter {
         Filter::MaxN(n)
     }
 
-    pub fn min(n: i32) -> Filter {
+    pub fn min(n: u32) -> Filter {
         Filter::MinN(n)
     }
 
-    pub fn filter(&self, points: &mut [i32]) -> Vec<i32> {
+    pub fn filter(&self, points: &mut [u32]) -> Vec<u32> {
         let mut points = points.to_vec();
         let length = points.len();
         match self {
@@ -35,29 +35,23 @@ impl Filter {
 
 #[derive(Default)]
 pub struct Dice {
-    count: usize,
-    sides: i32,
-    rolls: Vec<i32>,
-    filtered: Vec<i32>,
-    result: i32,
+    count: u32,
+    sides: u32,
+    rolled: Vec<u32>,
+    filtered: Vec<u32>,
+    result: u32,
     actions: Vec<Filter>,
-    is_num: bool,
     with_actions: bool,
-    rolled: bool,
+    has_rolled: bool,
+    has_filtered: bool,
 }
 
 impl Dice {
-    pub fn new(count: usize, sides: i32) -> Self {
+    pub fn new(count: u32, sides: u32) -> Self {
         Self {
             count,
             sides,
-            rolls: vec![],
-            filtered: vec![],
-            result: 0,
-            actions: vec![],
-            is_num: false,
-            with_actions: false,
-            rolled: false,
+            ..Default::default()
         }
     }
 
@@ -67,47 +61,32 @@ impl Dice {
         self
     }
 
-    pub fn num(num: i32) -> Self {
-        Self {
-            result: num,
-            is_num: true,
-            ..Default::default()
-        }
-    }
-
     pub fn roll(mut self) -> Self {
-        if self.is_num {
-            return self;
-        }
-
-        if !self.rolled {
+        if !self.has_rolled {
             let mut rng = OsRng;
             for _ in 0..self.count {
                 let roll = rng.gen_range(1..=self.sides);
-                self.rolls.push(roll);
+                self.rolled.push(roll);
             }
         }
+        self.has_rolled = true;
 
-        self.filtered = self.rolls.clone();
-        while let Some(action) = self.actions.pop() {
-            self.filtered = action.filter(&mut self.filtered);
+        if !self.has_filtered {
+            self.filtered = self.rolled.clone();
+            while let Some(action) = self.actions.pop() {
+                self.filtered = action.filter(&mut self.filtered);
+            }
+            self.result = self.filtered.iter().sum();
         }
+        self.has_filtered = true;
 
-        let sum = self.filtered.iter().sum();
-        self.result = sum;
-
-        self.rolled = true;
         self
     }
 
     pub fn roll_str(&self) -> String {
-        if self.is_num {
-            return self.result.to_string();
-        }
-
         let mut result = String::from("[");
-        for (idx, roll) in self.rolls.iter().enumerate() {
-            if idx == self.count - 1 {
+        for (idx, roll) in self.rolled.iter().enumerate() {
+            if idx == self.count as usize - 1 {
                 result.push_str(&roll.to_string());
             } else {
                 result.push_str(&roll.to_string());
@@ -134,7 +113,7 @@ impl Dice {
     }
 }
 
-pub fn roll_dice(num_dice: usize, sides: i32) -> i32 {
+pub fn roll_dice(num_dice: u32, sides: u32) -> u32 {
     Dice::new(num_dice, sides).roll().result
 }
 
@@ -159,7 +138,7 @@ mod tests {
     #[test]
     fn test_dice() {
         let dice = Dice::new(6, 1).roll();
-        assert_eq!(dice.rolls, vec![1, 1, 1, 1, 1, 1]);
+        assert_eq!(dice.rolled, vec![1, 1, 1, 1, 1, 1]);
         assert_eq!(dice.result, 6);
         assert_eq!(dice.roll_str(), "[1, 1, 1, 1, 1, 1]");
     }
@@ -204,7 +183,7 @@ mod tests {
         assert_eq!(Filter::min(0).filter(&mut arr), vec![]);
 
         let dice = Dice::new(6, 1).filter(Filter::max(3)).roll();
-        assert_eq!(dice.rolls, vec![1, 1, 1, 1, 1, 1]);
+        assert_eq!(dice.rolled, vec![1, 1, 1, 1, 1, 1]);
         assert_eq!(dice.filtered, vec![1, 1, 1]);
         assert_eq!(dice.result, 3);
     }

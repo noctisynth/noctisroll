@@ -25,9 +25,9 @@ Factor: (i32, String) = {
 Term: (i32, String) = {
     Dice => {
         let dice = <>.roll();
-        (dice.result, dice.roll_str())
+        (dice.result as i32, dice.roll_str())
     },
-    Num => (<>, <>.to_string()),
+    Num => (<> as i32, <>.to_string()),
     "(" <Expr> ")",
     "abs(" <Expr> ")" => {
         (<>.0.abs(), format!("abs({})", <>.1))
@@ -74,14 +74,14 @@ Dice: Dice = {
     <dice:Dice> "k" <k:Num> => dice.filter(Filter::MaxN(k)),
     <dice:Dice> "q" <q:Num> => dice.filter(Filter::MinN(q)),
     FacedDice,
-}
+};
 
 FacedDice: Dice = {
-    <l:Num> "d" <r:Num> => Dice::new(l as usize, r),
+    <l:Num> "d" <r:Num> => Dice::new(l, r),
     "d" <r:Num> => Dice::new(1, r),
     "d" => Dice::new(1, 100),
-}
+};
 
-Num: i32 = {
-    r"[0-9]+" => i32::from_str(<>).unwrap(),
+Num: u32 = {
+    r"[0-9]+" => u32::from_str(<>).unwrap(),
 };

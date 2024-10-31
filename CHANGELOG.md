@@ -1,5 +1,12 @@
 # Changelog
 
+## \[0.1.5]
+
+### Refactors
+
+- [`9a8bf69`](https://github.com/noctisynth/noctisroll.git/commit/9a8bf69efb2269beed019ce00a0d63b88d46dbfd) ([#12](https://github.com/noctisynth/noctisroll.git/pull/12) by [@fu050409](https://github.com/noctisynth/noctisroll.git/../../fu050409)) Refactor `Dice` struct to use `u32` instead of `i32` for the `sides` field and it's result.
+- [`82efd32`](https://github.com/noctisynth/noctisroll.git/commit/82efd32941379f934fb49b48b2b3872c9023a228) ([#10](https://github.com/noctisynth/noctisroll.git/pull/10) by [@fu050409](https://github.com/noctisynth/noctisroll.git/../../fu050409)) Refactored the grammar to make it more scalable, universal, and easier to maintain.
+
 ## \[0.1.4]
 
 ### Bug Fixes

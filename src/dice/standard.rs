@@ -251,7 +251,7 @@ impl Dice for StandardDice {
         } else if let Some(n) = self.keep_lowest {
             // When keeping lowest, minimum is n * 1
             n as i64
-        } else if let Some(_) = self.success_threshold {
+        } else if self.success_threshold.is_some() {
             // In dice pool mode, minimum is 0 successes
             0
         } else {
@@ -267,7 +267,7 @@ impl Dice for StandardDice {
         } else if let Some(n) = self.keep_lowest {
             // When keeping lowest, maximum is n * sides
             (n * self.sides) as i64
-        } else if let Some(_) = self.success_threshold {
+        } else if self.success_threshold.is_some() {
             // In dice pool mode, maximum is count successes
             self.count as i64
         } else {

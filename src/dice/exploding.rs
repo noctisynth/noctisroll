@@ -155,7 +155,7 @@ impl Dice for ExplodingDice {
             let die_rolls = &all_rolls[die_start..=die_end];
             for (i, roll) in die_rolls.iter().enumerate() {
                 if i > 0 {
-                    description.push_str("!");
+                    description.push('!');
                 }
                 description.push_str(&roll.value.to_string());
             }
@@ -215,12 +215,11 @@ impl Dice for ExplodingDice {
 
     fn max_value(&self) -> i64 {
         // Theoretical maximum is infinite without limit
-        if self.max_explosions.is_none() {
-            i64::MAX // Practical limit
-        } else {
-            let max_explosions = self.max_explosions.unwrap();
+        if let Some(max_explosions) = self.max_explosions {
             let total_rolls = self.count * (max_explosions + 1);
             (total_rolls * self.sides) as i64
+        } else {
+            i64::MAX // Practical limit
         }
     }
 }

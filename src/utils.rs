@@ -63,7 +63,7 @@ impl RollStatistics {
         // Calculate median
         let mut sorted = values.clone();
         sorted.sort();
-        let median = if sorted.len() % 2 == 0 {
+        let median = if sorted.len().is_multiple_of(2) {
             let mid = sorted.len() / 2;
             (sorted[mid - 1] as f64 + sorted[mid] as f64) / 2.0
         } else {
@@ -151,9 +151,9 @@ pub fn parse_dice_notation(notation: &str) -> Result<Box<dyn crate::core::Dice>,
 
     let notation = notation.to_lowercase();
 
-    if notation.starts_with('d') {
+    if let Some(stripped) = notation.strip_prefix('d') {
         // Handle dX notation
-        let sides = notation[1..]
+        let sides = stripped
             .parse::<u32>()
             .map_err(|e| DiceError::ParseError(e.to_string()))?;
         Ok(Box::new(crate::dice::StandardDice::new(1, sides)))

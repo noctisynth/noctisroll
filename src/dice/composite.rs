@@ -155,7 +155,7 @@ impl Dice for ArithmeticExpr {
                 (
                     left_result
                         .total
-                        .pow(right_result.total.max(0).min(10) as u32),
+                        .pow(right_result.total.clamp(0, 10) as u32),
                     "^",
                 ) // Limit exponent
             }
@@ -246,7 +246,7 @@ impl Dice for ArithmeticExpr {
                     if right_min % 2 == 0 {
                         0 // Even exponent gives positive
                     } else {
-                        left_min.pow(right_min.max(0).min(10) as u32)
+                        left_min.pow(right_min.clamp(0, 10) as u32)
                     }
                 }
             }

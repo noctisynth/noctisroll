@@ -1,5 +1,6 @@
 //! Core types and traits for the dice rolling system
 
+use rand::RngExt;
 use serde::{Deserialize, Serialize};
 use std::fmt;
 
@@ -206,7 +207,7 @@ impl DiceContext {
     pub fn new() -> Self {
         Self {
             config: DiceConfig::default(),
-            rng: rand::thread_rng(),
+            rng: rand::rng(),
         }
     }
 
@@ -214,19 +215,17 @@ impl DiceContext {
     pub fn with_config(config: DiceConfig) -> Self {
         Self {
             config,
-            rng: rand::thread_rng(),
+            rng: rand::rng(),
         }
     }
 
     /// Roll a single die with the given number of sides
     pub fn roll_die(&mut self, sides: u32) -> DieRoll {
-        use rand::Rng;
-
         if sides == 0 {
             return DieRoll::new(0, 0);
         }
 
-        let value = self.rng.gen_range(1..=sides);
+        let value = self.rng.random_range(1..=sides);
         DieRoll::new(value, sides)
     }
 

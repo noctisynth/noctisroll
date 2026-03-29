@@ -12,17 +12,17 @@ homepage = "https://github.com/noctisynth/noctisroll"
 
 [features]
 default = ["parser"]
-parser = ["pest", "pest_derive"]
+parser = ["dep:pest", "dep:pest_derive"]
 
 [dependencies]
-rand = "0.8"
-thiserror = "1.0"
-serde = { version = "1.0", features = ["derive"] }
+rand = "0.10.0"
+serde = { version = "1.0.228", features = ["derive"] }
+thiserror = "2.0.18"
 
 # Optional parser dependencies
-pest = { version = "2.7", optional = true }
-pest_derive = { version = "2.7", optional = true }
+pest = { version = "2.8.6", optional = true }
+pest_derive = { version = "2.8.6", optional = true }
 
 [dev-dependencies]
-criterion = "0.5"
-proptest = "1.4"
+criterion = "0.8.2"
+proptest = "1.11.0"

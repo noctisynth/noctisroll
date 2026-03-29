@@ -2,7 +2,7 @@
 
 use crate::core::{Dice, DiceContext, DieRoll, RollResult};
 use crate::error::{DiceError, DiceResult};
-use rand::Rng;
+use rand::RngExt;
 use std::fmt;
 
 /// FATE/Fudge dice (dF)
@@ -39,7 +39,7 @@ impl Dice for FateDice {
         for _ in 0..self.count {
             // FATE dice have 3 faces: -1, 0, +1
             // We'll roll a d3 and map: 1 -> -1, 2 -> 0, 3 -> +1
-            let roll_value = ctx.rng.gen_range(1..=3);
+            let roll_value = ctx.rng.random_range(1..=3);
             let fate_value = match roll_value {
                 1 => -1,
                 2 => 0,

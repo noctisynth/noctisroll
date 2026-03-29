@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.6
+
+### Chores
+
+- [`c4d4ea0`](https://github.com/noctisynth/noctisroll/commit/c4d4ea00762d1ff3d59b1c9c802cb3f8ea0e63e6): Bump all dependencies to latest version.
+
 ## \[0.1.5]
 
 ### Refactors

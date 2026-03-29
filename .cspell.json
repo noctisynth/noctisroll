@@ -1,9 +1,14 @@
 {
     "words": [
         "covector",
+        "criticals",
         "lalrpop",
         "noctisroll",
+        "onedice",
+        "proptest",
         "rngs",
+        "serde",
+        "thiserror",
         "TRPG",
         "usize"
     ]

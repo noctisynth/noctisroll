@@ -1,7 +1,7 @@
 lalrpop_util::lalrpop_mod!(pub roll);
 
 use lalrpop_util::{lexer::Token, ParseError};
-use rand::{rngs::OsRng, Rng};
+use rand::prelude::*;
 
 pub enum Filter {
     MaxN(u32),
@@ -63,9 +63,9 @@ impl Dice {
 
     pub fn roll(mut self) -> Self {
         if !self.has_rolled {
-            let mut rng = OsRng;
+            let mut rng = rand::rng();
             for _ in 0..self.count {
-                let roll = rng.gen_range(1..=self.sides);
+                let roll = rng.random_range(1..=self.sides);
                 self.rolled.push(roll);
             }
         }

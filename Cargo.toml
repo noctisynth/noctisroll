@@ -11,8 +11,8 @@ keywords = ["text-based", "roll", "TRPG"]
 homepage = "https://github.com/noctisynth/noctisroll"
 
 [dependencies]
-lalrpop-util = { version = "0.22.0", features = ["lexer", "unicode"] }
-rand = "0.8.5"
+lalrpop-util = "0.23.1"
+rand = "0.10.0"
 
 [build-dependencies]
-lalrpop = "0.22.0"
+lalrpop = "0.23.1"

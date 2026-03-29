@@ -17,35 +17,35 @@ Factor: (i32, String) = {
     <l:Factor> "^" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ^ {}", l.1, r.1)),
     <l:Factor> "**" <r:Term> => (l.0.pow(r.0 as u32), format!("{} ** {}", l.1, r.1)),
     <l:Factor> "%" <r:Term> => (l.0 % r.0, format!("{} % {}", l.1, r.1)),
-    "+" <Term> => (<>.0, format!("+{}", <>.1)),
-    "-" <Term> => (-<>.0, format!("-{}", <>.1)),
+    "+" <t:Term> => (t.0, format!("+{}", t.1)),
+    "-" <t:Term> => (-t.0, format!("-{}", t.1)),
     Term,
 };
 
 Term: (i32, String) = {
-    Dice => {
-        let dice = <>.roll();
+    <d:Dice> => {
+        let dice = d.roll();
         (dice.result as i32, dice.roll_str())
     },
-    Num => (<> as i32, <>.to_string()),
+    <n:Num> => (n as i32, n.to_string()),
     "(" <Expr> ")",
-    "abs(" <Expr> ")" => {
-        (<>.0.abs(), format!("abs({})", <>.1))
+    "abs(" <e:Expr> ")" => {
+        (e.0.abs(), format!("abs({})", e.1))
     },
-    "cos(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "cos(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.cos();
-        (result as i32, format!("cos({})", <>.1))
+        (result as i32, format!("cos({})", e.1))
     },
-    "exp(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "exp(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.exp();
-        (result as i32, format!("exp({})", <>.1))
+        (result as i32, format!("exp({})", e.1))
     },
-    "floor(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "floor(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.floor();
-        (result as i32, format!("floor({})", <>.1))
+        (result as i32, format!("floor({})", e.1))
     },
     "max(" <l:Expr> "," <r:Expr> ")" => {
         (l.0.max(r.0), format!("max({}, {})", l.1, r.1))
@@ -53,20 +53,20 @@ Term: (i32, String) = {
     "min(" <l:Expr> "," <r:Expr> ")" => {
         (l.0.min(r.0), format!("min({}, {})", l.1, r.1))
     },
-    "sin(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "sin(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.sin();
-        (result as i32, format!("sin({})", <>.1))
+        (result as i32, format!("sin({})", e.1))
     },
-    "sqrt(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "sqrt(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.sqrt();
-        (result as i32, format!("sqrt({})", <>.1))
+        (result as i32, format!("sqrt({})", e.1))
     },
-    "tan(" <Expr> ")" => {
-        let x = <>.0 as f64;
+    "tan(" <e:Expr> ")" => {
+        let x = e.0 as f64;
         let result = x.tan();
-        (result as i32, format!("tan({})", <>.1))
+        (result as i32, format!("tan({})", e.1))
     },
 };
 

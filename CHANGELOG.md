@@ -1,5 +1,19 @@
 # Changelog
 
+## v0.2.0
+
+### Chores
+
+- [`781a4bd`](https://github.com/noctisynth/noctisroll/commit/781a4bdd966a43a3810523fa79e5b4778129b009): Bump all dependencies and migrate code.
+
+### Refactors
+
+- [`fbf24dc`](https://github.com/noctisynth/noctisroll/commit/fbf24dc782034e7029e01fe820387e67430e4b2a): Rewrite noctis rolling system to match OneDice convention.
+
+### Bug Fixes
+
+- [`f2feebb`](https://github.com/noctisynth/noctisroll/commit/f2feebb4fc5fc09e24674d2c0a017590baace3da): Apply code lints reported by clippy.
+
 ## v0.1.6
 
 ### Chores

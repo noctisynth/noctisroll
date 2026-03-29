@@ -1,0 +1,32 @@
+// Pest grammar for OneDice expressions
+
+expression = { term ~ (op ~ term)* }
+term = { factor ~ (op ~ factor)* }
+factor = { dice_expr | number | paren_expr }
+
+paren_expr = { "(" ~ expression ~ ")" }
+
+dice_expr = { 
+    dice_count? ~ dice_type ~ dice_sides? ~ dice_param*
+}
+
+dice_count = @{ ASCII_DIGIT+ }
+dice_type = @{ "d" | "a" | "c" | "f" | "df" }
+dice_sides = @{ ASCII_DIGIT+ }
+
+dice_param = {
+    keep_highest |
+    keep_lowest |
+    explode |
+    success_threshold
+}
+
+keep_highest = { "k" ~ ASCII_DIGIT+ }
+keep_lowest = { "q" ~ ASCII_DIGIT+ }
+explode = { "!" ~ ASCII_DIGIT* }
+success_threshold = { "a" ~ ASCII_DIGIT+ }
+
+number = @{ ("+" | "-")? ~ ASCII_DIGIT+ }
+op = @{ "+" | "-" | "*" | "/" | "%" | "^" | "**" }
+
+WHITESPACE = _{ " " | "\t" | "\n" | "\r" }

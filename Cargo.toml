@@ -3,16 +3,26 @@ name = "noctisroll"
 version = "0.1.6"
 edition = "2021"
 authors = ["苏向夜 <fu050409@163.com>"]
-description = "Text-based TRPG dice rolling system"
+description = "A modern, modular TRPG dice rolling system implementing the OneDice standard"
 license = "AGPL-3.0-only"
 repository = "https://github.com/noctisynth/noctisroll"
 readme = "README.md"
-keywords = ["text-based", "roll", "TRPG"]
+keywords = ["dice", "trpg", "rpg", "random", "onedice"]
 homepage = "https://github.com/noctisynth/noctisroll"
 
-[dependencies]
-lalrpop-util = "0.23.1"
-rand = "0.10.0"
+[features]
+default = ["parser"]
+parser = ["pest", "pest_derive"]
 
-[build-dependencies]
-lalrpop = "0.23.1"
+[dependencies]
+rand = "0.8"
+thiserror = "1.0"
+serde = { version = "1.0", features = ["derive"] }
+
+# Optional parser dependencies
+pest = { version = "2.7", optional = true }
+pest_derive = { version = "2.7", optional = true }
+
+[dev-dependencies]
+criterion = "0.5"
+proptest = "1.4"

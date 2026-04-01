@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.2.1
+
+### New Features
+
+- [`e98ea01`](https://github.com/noctisynth/noctisroll/commit/e98ea01d83810da4836df8ec16240fca4c800fc0): Add agent tool callings of `rig`.
+
 ## v0.2.0
 
 ### Chores

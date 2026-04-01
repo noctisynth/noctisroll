@@ -37,11 +37,17 @@ pub mod utils;
 #[cfg(feature = "parser")]
 pub mod parser;
 
+#[cfg(feature = "tool-call")]
+pub mod tool;
+
 /// Re-exports for convenient usage
 pub mod prelude {
     pub use crate::core::*;
     pub use crate::dice::*;
     pub use crate::error::*;
+
+    #[cfg(feature = "tool-call")]
+    pub use crate::tool::*;
 
     #[cfg(feature = "parser")]
     pub use crate::parser::*;

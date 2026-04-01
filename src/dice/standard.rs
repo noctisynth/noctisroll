@@ -63,12 +63,6 @@ impl StandardDice {
 
     /// Validate the dice configuration
     pub fn validate(&self) -> DiceResult<()> {
-        if self.sides == 0 {
-            return Err(DiceError::InvalidDice(
-                "Dice must have at least 1 side".into(),
-            ));
-        }
-
         if let Some(n) = self.keep_highest {
             if n > self.count {
                 return Err(DiceError::InvalidParameter(format!(

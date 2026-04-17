@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.2.2
+
+### New Features
+
+- [`8fcc6af`](https://github.com/noctisynth/noctisroll/commit/8fcc6afeadca52e982be2692e2f565fd19ca57c9): Bump `rig-core` to latest version and fix clippy lints.
+
+### Bug Fixes
+
+- [`cc01691`](https://github.com/noctisynth/noctisroll/commit/cc01691269fcf1dafb0560cfab9eede37db98211): Fix code cspell for `critical`.
+
 ## v0.2.1
 
 ### New Features

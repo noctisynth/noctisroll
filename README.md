@@ -166,7 +166,7 @@ use noctisroll::core::{DiceConfig, DiceContext};
 
 let config = DiceConfig {
     default_sides: 100, // CoC default instead of D&D
-    detect_criticals: true,
+    detect_critical: true,
     seed: Some(42), // Fixed seed for reproducible rolls
     max_dice: 10000,
     max_sides: 1000,

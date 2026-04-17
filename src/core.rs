@@ -172,7 +172,7 @@ pub struct DiceConfig {
     /// Default number of sides for a d (e.g., 20 for D&D, 100 for CoC)
     pub default_sides: u32,
     /// Whether to enable critical success/failure detection
-    pub detect_criticals: bool,
+    pub detect_critical: bool,
     /// Random number generator seed (None for random)
     pub seed: Option<u64>,
     /// Maximum number of dice to roll (for safety)
@@ -185,7 +185,7 @@ impl Default for DiceConfig {
     fn default() -> Self {
         Self {
             default_sides: 20, // D&D default
-            detect_criticals: true,
+            detect_critical: true,
             seed: None,
             max_dice: 1000,
             max_sides: 10000,

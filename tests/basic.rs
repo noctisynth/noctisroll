@@ -51,7 +51,7 @@ fn test_exploding_dice() {
 #[test]
 fn test_dice_validation() {
     // Invalid dice should fail validation
-    let dice = StandardDice::new(2, 0);
+    let dice = StandardDice::new(2, 0).keep_lowest(12);
     assert!(dice.validate().is_err());
 
     // Valid dice should pass

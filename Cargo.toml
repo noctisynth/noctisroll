@@ -7,13 +7,8 @@ description = "A modern, modular TRPG dice rolling system implementing the OneDi
 license = "AGPL-3.0-only"
 repository = "https://github.com/noctisynth/noctisroll"
 readme = "README.md"
-keywords = ["dice", "trpg", "rpg", "random", "onedice"]
+keywords = ["dice", "onedice", "random", "rpg", "trpg"]
 homepage = "https://github.com/noctisynth/noctisroll"
-
-[features]
-default = ["parser", "tool-call"]
-parser = ["dep:pest", "dep:pest_derive"]
-tool-call = ["dep:rig-core", "dep:rig-derive", "dep:serde_json"]
 
 [dependencies]
 rand = "0.10.0"
@@ -23,7 +18,7 @@ thiserror = "2.0.18"
 # Optional parser dependencies
 pest = { version = "2.8.6", optional = true }
 pest_derive = { version = "2.8.6", optional = true }
-rig-core = { version = "0.34.0", features = ["derive"], optional = true }
+rig-core = { version = "0.35.0", features = ["derive"], optional = true }
 rig-derive = { version = "0.1.11", optional = true }
 serde_json = { version = "1.0.149", optional = true }
 
@@ -32,3 +27,8 @@ criterion = "0.8.2"
 dotenvy = "0.15.7"
 proptest = "1.11.0"
 tokio = { version = "1.50.0", features = ["full"] }
+
+[features]
+default = ["parser", "tool-call"]
+parser = ["dep:pest", "dep:pest_derive"]
+tool-call = ["dep:rig-core", "dep:rig-derive", "dep:serde_json"]

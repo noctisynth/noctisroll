@@ -96,7 +96,7 @@ impl StandardDice {
         let mut dropped = Vec::new();
 
         if let Some(n) = self.keep_highest {
-            kept.sort_by(|a, b| b.value.cmp(&a.value));
+            kept.sort_by_key(|b| std::cmp::Reverse(b.value));
             dropped = kept.split_off(n as usize);
         } else if let Some(n) = self.keep_lowest {
             kept.sort_by_key(|r| r.value);

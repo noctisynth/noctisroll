@@ -2,17 +2,17 @@
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     use noctisroll::prelude::*;
-    use rig::{
+    use rig_core::{
         client::{CompletionClient, ProviderClient},
         integrations::cli_chatbot::ChatBotBuilder,
-        providers::deepseek::{self, DEEPSEEK_CHAT},
+        providers::deepseek,
     };
 
     let _ = dotenvy::dotenv();
-    let deepseek = deepseek::Client::from_env();
+    let deepseek = deepseek::Client::from_env()?;
 
     let agent = deepseek
-        .agent(DEEPSEEK_CHAT)
+        .agent("deepseek-v4-flash")
         .preamble("You are a dice rolling assistant.")
         .tools(tools())
         .temperature(0.7)

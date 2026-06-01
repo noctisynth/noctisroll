@@ -1,4 +1,4 @@
-use rig::tool::ToolDyn;
+use rig_core::tool::ToolDyn;
 use rig_derive::rig_tool;
 
 use crate::{core, dice};
@@ -23,7 +23,7 @@ pub fn roll_dice(
     kh: Option<u32>,
     bonus: Option<i32>,
     threshold: Option<u32>,
-) -> Result<core::RollResult, rig::tool::ToolError> {
+) -> Result<core::RollResult, rig_core::tool::ToolError> {
     use crate::core::Dice;
     let mut dice = dice::StandardDice::new(count, sides);
     if let Some(kl) = kl {
@@ -47,7 +47,7 @@ pub fn roll_dice(
     params(count = "The number of FATE dice to roll (default: 4)",),
     required(count)
 )]
-pub fn roll_fate_dice(count: Option<u32>) -> Result<core::RollResult, rig::tool::ToolError> {
+pub fn roll_fate_dice(count: Option<u32>) -> Result<core::RollResult, rig_core::tool::ToolError> {
     use crate::core::Dice;
     let count = count.unwrap_or(4);
     let dice = dice::FateDice::new(count);
@@ -72,7 +72,7 @@ pub fn roll_exploding_dice(
     threshold: u32,
     max_explosions: Option<u32>,
     explode_below: Option<bool>,
-) -> Result<core::RollResult, rig::tool::ToolError> {
+) -> Result<core::RollResult, rig_core::tool::ToolError> {
     use crate::core::Dice;
     let mut dice = dice::ExplodingDice::new(count, sides, threshold);
 
@@ -94,7 +94,9 @@ pub fn roll_exploding_dice(
     params(expression = "Dice expression to evaluate (e.g., '2d20kh1 + 5', '4d6dl1', '3d10!8')",),
     required(expression)
 )]
-pub fn eval_dice_expression(expression: String) -> Result<core::RollResult, rig::tool::ToolError> {
+pub fn eval_dice_expression(
+    expression: String,
+) -> Result<core::RollResult, rig_core::tool::ToolError> {
     use crate::parser::Parser;
 
     let parser = Parser::new();

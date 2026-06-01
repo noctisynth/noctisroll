@@ -34,10 +34,10 @@ pub enum DiceError {
 /// Result type for dice operations
 pub type DiceResult<T> = Result<T, DiceError>;
 
-/// Conversion from `DiceError` to `rig::tool::ToolError`
+/// Conversion from `DiceError` to `rig_core::tool::ToolError`
 #[cfg(feature = "tool-call")]
-impl From<DiceError> for rig::tool::ToolError {
+impl From<DiceError> for rig_core::tool::ToolError {
     fn from(err: DiceError) -> Self {
-        rig::tool::ToolError::ToolCallError(err.into())
+        rig_core::tool::ToolError::ToolCallError(err.into())
     }
 }
